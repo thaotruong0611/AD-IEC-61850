@@ -1,2 +1,0 @@
-Source,Length,stNum,sqNum,goID,heartbeat,dif_stNum,dif_sqNum,Circuit breaker Open/Close Status,I-high VT,I-high VT- Tran,I-low VT- Tran,I-amongst-feeders,Label
-ipcas_21:73:33,150,9999,0,LIED10CTRL/LLN0$Status,0.005273959000000161,9998.0,-10.0,1,310.3333333333333,154.66666666666666,921.6666666666666,306.5,Attack
