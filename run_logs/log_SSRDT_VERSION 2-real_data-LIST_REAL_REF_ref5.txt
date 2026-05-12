@@ -1,0 +1,98 @@
+STDOUT:
+
+
+STDERR:
+[NbConvertApp] Converting notebook SSRDT_VERSION 2-real_data-LIST_REAL_REF.ipynb to notebook
+[NbConvertApp] Writing 217306 bytes to SSRDT_VERSION 2-real_data-LIST_REAL_REF.ipynb
+
+
+NOTEBOOK_OUTPUT_TEXT:
+WORKDIR = /home/puma_qn/New folder-NEW 3_CB-Copy2 - deu hơn-
+
+Device: cuda
+Train size (before limit): 809 | Val size: 4060 | Real size: 82
+Label counts (before limit) - Train: Counter({0: 800, 1: 9}) | Val: Counter({0: 4000, 1: 60}) | Real: Counter({0: 54, 1: 28})
+
+>>> After limiting TRAIN:
+Train size: 809 | Label counts: Counter({0: 800, 1: 9})
+Val size: 4060 | Label counts: Counter({0: 4000, 1: 60})
+Real size: 82 | Label counts: Counter({0: 54, 1: 28})
+
+>>> Few-shot REAL split:
+Fixed real normal pool: 10 | Label counts: Counter({0: 10})
+Selected real reference: 5 | Label counts: Counter({0: 5})
+Real test: 72 | Label counts: Counter({0: 44, 1: 28})
+Saved train_data_800_9.csv / validation_data.csv
+Saved real_normal_pool_10_fixed.csv
+Saved real_normal_reference_from_pool10_ref5.csv
+Saved real_test_excluding_pool10.csv
+
+>>> Fitting preprocessors ...
+X_train_proc shape: (809, 11)
+
+Train normals: 800 | Train anomalies: 9
+Val normals: 4000 | Val anomalies: 60
+Real normal reference: 5
+Final X_ref_fewshot: 805
+Real test normals: 44 | Real test anomalies: 28
+
+>>> Fitting KNN (FULL train set) on normals & anomalies ...
+
+
+>>> Model selection by Few-shot LOCAL DENSITY normalized validation F1
+>>> Few-shot real normal reference size = 5
+
+
+>>> [Sigma warm-up] recon-only for 10 epoch(s) on NORMAL train ...
+  warm-up epoch 1/10: recon=0.286858
+  warm-up epoch 10/10: recon=0.258694
+
+>>> [Sigma estimate] data-driven sigma_n + margin-controlled sigma_a (once) ...
+
+/home/puma_qn/anaconda3/envs/torch_gpu/lib/python3.11/site-packages/torch/optim/lr_scheduler.py:240: UserWarning: The epoch parameter in `scheduler.step()` was not necessary and is being deprecated where possible. Please use `scheduler.step()` to step the scheduler. During the deprecation, if epoch is different from None, the closed form is used instead of the new chainable form, where available. Please open an issue if you are unable to replicate your use case: https://github.com/pytorch/pytorch/issues/new/choose.
+  warnings.warn(EPOCH_DEPRECATION_WARNING, UserWarning)
+
+>>> [Sigma frozen] zdim=4, nu_n=0.05, nu_a=0.05, gamma=10.0, use_hat_sigma_a=False
+    rn(q=0.950)=0.457723  => sigma_n=0.228861
+    ra(q=0.950)=1.315395  => hat_sigma_a=0.000000
+    sigma_a=max(hat_sigma_a, gamma*sigma_n)=2.288614
+    sigma_m (t=0.5)=1.626366
+
+[1/1] F1_val_anomaly=0.9677 | q*=0.999000 | t_val=2.248539 | cfg={'latent_dim': 4, 'hid': 16, 'lr': 0.001, 'epochs': 200, 'weight_decay': 0.001, 'lambda2': 1.0, 'eta': 1.0, 'alpha': 0, 'w': 0.5, 'k1': 400, 'k2': 8, 'use_scheduler': True, 'sinkhorn_eps': 0.6, 'sinkhorn_iters': 50, 'dropout': 0.0, 'sigma_warmup_epochs': 10, 'nu_n': 0.05, 'nu_a': 0.05, 'gamma': 10, 'use_hat_sigma_a': False, 'clip_mult': 3.0}
+
+>>> Best config: {'latent_dim': 4, 'hid': 16, 'lr': 0.001, 'epochs': 200, 'weight_decay': 0.001, 'lambda2': 1.0, 'eta': 1.0, 'alpha': 0, 'w': 0.5, 'k1': 400, 'k2': 8, 'use_scheduler': True, 'sinkhorn_eps': 0.6, 'sinkhorn_iters': 50, 'dropout': 0.0, 'sigma_warmup_epochs': 10, 'nu_n': 0.05, 'nu_a': 0.05, 'gamma': 10, 'use_hat_sigma_a': False, 'clip_mult': 3.0}
+Best Binary F1 (anomaly) on VAL: 0.967741935483871 | q* = 0.999 | t_val = 2.248539447784424
+
+>>> FINAL TEST: Few-shot Local Density-Based Normalized Score
+>>> Reference = simulation normal train (800) + real normal few-shot (5)
+>>> Test = remaining real normal (44) + all real anomaly (28)
+
+=== TEST RESULTS: FEW-SHOT LOCAL DENSITY NORMALIZED SCORE ===
+N_REAL_REF: 5
+AUROC: 0.9926948051948052
+Binary F1 (anom=1): 0.9310344827586207
+MCC: 0.8860912478088324
+
+Classification report:
+              precision    recall  f1-score   support
+
+           0       0.98      0.93      0.95        44
+           1       0.90      0.96      0.93        28
+
+    accuracy                           0.94        72
+   macro avg       0.94      0.95      0.94        72
+weighted avg       0.95      0.94      0.94        72
+
+
+Confusion matrix:
+[[41  3]
+ [ 1 27]]
+
+<Figure size 640x480 with 2 Axes>
+<Figure size 700x500 with 1 Axes>
+Saved: loss_curves_AS_SRDT_fewshot_LD_ref5.png
+Saved: confusion_matrix_AS_SRDT_fewshot_LD_ref5.png
+Saved: real_normal_reference_fewshot.csv
+Saved: real_test_after_fewshot_split.csv
+Training time   : 1 min 04.00 s
+Testing time : 0 min 00.23 s

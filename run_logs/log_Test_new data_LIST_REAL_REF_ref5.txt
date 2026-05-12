@@ -1,0 +1,135 @@
+STDOUT:
+
+
+STDERR:
+[NbConvertApp] Converting notebook Test_new data_LIST_REAL_REF.ipynb to notebook
+[NbConvertApp] Writing 168011 bytes to Test_new data_LIST_REAL_REF.ipynb
+
+
+NOTEBOOK_OUTPUT_TEXT:
+WORKDIR = /home/puma_qn/New folder-NEW 3_CB-Copy2 - deu hơn-
+
+Device: cuda
+Train size before limit: 809 | Val size: 4060 | Real size: 82
+Label counts before limit - Train: Counter({0: 800, 1: 9}) | Val: Counter({0: 4000, 1: 60}) | Real: Counter({0: 54, 1: 28})
+
+>>> After limiting SIMULATION TRAIN:
+Train size: 809 | Label counts: Counter({0: 800, 1: 9})
+Val size: 4060 | Label counts: Counter({0: 4000, 1: 60})
+Real size: 82 | Label counts: Counter({0: 54, 1: 28})
+
+>>> Few-shot REAL split:
+Fixed real normal pool: 10 | Label counts: Counter({0: 10})
+Selected real reference: 5 | Label counts: Counter({0: 5})
+Real test: 72 | Label counts: Counter({0: 44, 1: 28})
+
+>>> Fitting preprocessors on SIMULATION TRAIN only ...
+X_train_proc shape: (809, 11)
+
+Simulation train normals: 800 | train anomalies: 9
+Simulation val normals: 4000 | val anomalies: 60
+Real normal reference: 5
+Final X_ref_fewshot: 805
+Real test normals: 44 | real test anomalies: 28
+
+>>> Fitting KNN on SIMULATION normals & anomalies ...
+
+
+>>> PHASE 1: Model selection by ORIGINAL validation loss
+>>> Few-shot real normal reference size = 5
+
+
+>>> Sigma warm-up: 10 epoch(s)
+  warm-up epoch 1/10: recon=0.286858
+  warm-up epoch 10/10: recon=0.258694
+
+>>> Sigma estimate ...
+
+/home/puma_qn/anaconda3/envs/torch_gpu/lib/python3.11/site-packages/torch/optim/lr_scheduler.py:240: UserWarning: The epoch parameter in `scheduler.step()` was not necessary and is being deprecated where possible. Please use `scheduler.step()` to step the scheduler. During the deprecation, if epoch is different from None, the closed form is used instead of the new chainable form, where available. Please open an issue if you are unable to replicate your use case: https://github.com/pytorch/pytorch/issues/new/choose.
+  warnings.warn(EPOCH_DEPRECATION_WARNING, UserWarning)
+
+sigma_n=0.228861, sigma_m=1.258737, sigma_a=2.288614
+
+Epoch 1/200 | Train loss=5.298543 | Val loss=5.252816
+
+Epoch 20/200 | Train loss=4.841341 | Val loss=4.895433
+
+Epoch 40/200 | Train loss=4.648702 | Val loss=4.802763
+
+Epoch 60/200 | Train loss=4.564678 | Val loss=4.763621
+
+Epoch 80/200 | Train loss=4.488178 | Val loss=4.764623
+
+Epoch 100/200 | Train loss=4.368050 | Val loss=4.752540
+
+Epoch 120/200 | Train loss=4.621780 | Val loss=4.734643
+
+Epoch 140/200 | Train loss=4.462288 | Val loss=4.727987
+
+Epoch 160/200 | Train loss=4.633178 | Val loss=4.724555
+
+Epoch 180/200 | Train loss=4.565340 | Val loss=4.724823
+
+Epoch 200/200 | Train loss=4.568720 | Val loss=4.724853
+
+[1/1]
+Best original VAL loss: 4.724555015563965
+Best epoch: 160
+
+>>> Best config selected by ORIGINAL validation loss:
+{'latent_dim': 4, 'hid': 16, 'lr': 0.001, 'epochs': 200, 'weight_decay': 0.001, 'lambda1': 0.5, 'lambda2': 1, 'eta': 1, 'alpha': 0.5, 'w': 0.5, 'k1': 400, 'k2': 8, 'use_scheduler': True, 'sinkhorn_eps': 0.6, 'sinkhorn_iters': 50, 'dropout': 0.0, 'sigma_warmup_epochs': 10, 'nu_n': 0.05, 'nu_a': 0.05, 'gamma': 10, 'use_hat_sigma_a': False, 'clip_mult': 3.0}
+Best original VAL loss: 4.724555015563965
+Best epoch: 160
+
+Saved best model:
+best_encoder_selected_by_original_valloss.pt
+best_decoder_selected_by_original_valloss.pt
+
+>>> PHASE 2: Threshold selection by FEW-SHOT LOCAL DENSITY score
+Best LD VAL F1: 0.967741935483871
+Best q: 0.999
+Best threshold: 1.9679532
+
+>>> FINAL TEST: Few-shot Local Density-Based Normalized Score
+>>> Reference = simulation normal train (800) + real normal few-shot (5)
+>>> Test = remaining real normal (44) + all real anomaly (28)
+
+=== TEST RESULTS: BEST MODEL BY ORIGINAL VAL LOSS + FEW-SHOT LD SCORE ===
+N_REAL_REF: 5
+Best original VAL loss: 4.724555015563965
+Best epoch: 160
+Best LD VAL F1: 0.967741935483871
+Best q: 0.999
+Best threshold: 1.9679532
+AUROC: 0.9959415584415585
+Binary F1 anomaly=1: 0.9491525423728814
+MCC: 0.9174106107621619
+
+Classification report:
+              precision    recall  f1-score   support
+
+           0       1.00      0.93      0.96        44
+           1       0.90      1.00      0.95        28
+
+    accuracy                           0.96        72
+   macro avg       0.95      0.97      0.96        72
+weighted avg       0.96      0.96      0.96        72
+
+
+Confusion matrix:
+[[41  3]
+ [ 0 28]]
+
+<Figure size 640x480 with 2 Axes>
+<Figure size 700x500 with 1 Axes>
+Saved: loss_curves_best_valloss_fewshot_LD_ref5.png
+Saved: confusion_matrix_best_valloss_fewshot_LD_ref5.png
+Saved: test_scores_best_valloss_fewshot_LD_ref5.csv
+Saved: real_normal_reference_fewshot.csv
+Saved: real_test_after_fewshot_split.csv
+Saved: best_encoder_selected_by_original_valloss.pt
+Saved: best_decoder_selected_by_original_valloss.pt
+
+Training time: 1 min 04.77 s
+Testing time : 0 min 00.38 s
+Total time   : 1 min 05.15 s

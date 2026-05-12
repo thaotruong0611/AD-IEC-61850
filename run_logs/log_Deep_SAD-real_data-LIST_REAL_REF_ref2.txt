@@ -1,0 +1,111 @@
+STDOUT:
+
+
+STDERR:
+[NbConvertApp] Converting notebook Deep_SAD-real_data-LIST_REAL_REF.ipynb to notebook
+[NbConvertApp] Writing 67664 bytes to Deep_SAD-real_data-LIST_REAL_REF.ipynb
+
+
+NOTEBOOK_OUTPUT_TEXT:
+WORKDIR = /home/puma_qn/New folder-NEW 3_CB-Copy2 - deu hơn-
+
+Device: cuda
+
+=== Deep SAD TRAIN SPLIT ===
+Labeled Xl size           : 809
+  + labeled normals (+1)  : 800
+  + labeled anomalies (-1): 9
+
+Unlabeled Xu size         : 31341
+  + true normals          : 21000
+  + true anomalies        : 10341
+
+Real data:
+  + real normals          : 54
+  + real anomalies        : 28
+
+=== Few-shot REAL split ===
+Fixed real normal pool: 10
+Selected real reference: 2
+Real test size       : 72
+Real test normals    : 44
+Real test anomalies  : 28
+
+==================== FEATURE GROUPS ====================
+Categorical: []
+Numeric: ['Length', 'stNum', 'sqNum', 'heartbeat', 'dif_stNum', 'dif_sqNum', 'Circuit breaker Open/Close Status', 'I-high VT', 'I-high VT- Tran', 'I-low VT- Tran', 'I-amongst-feeders']
+========================================================
+
+X_ref_fewshot shape: (802, 11)
+
+>>> PHASE 1: Model selection by ORIGINAL Deep SAD validation score
+>>> N_REAL_REF = 2
+
+[1/1] Try eta=1.0 | ae_epochs=50 | lr=0.0001->1e-05
+
+/tmp/ipykernel_46155/904553129.py:193: DeprecationWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, pd.CategoricalDtype) instead
+  if pd.api.types.is_object_dtype(Xu_df[c]) or pd.api.types.is_categorical_dtype(Xu_df[c])
+
+  -> ORIGINAL VAL F1_binary(anomaly) = 0.87719 at q=0.9990, thr=0.449315
+
+=== Grid search results: ORIGINAL Deep SAD score ===
+ 1. Original_F1_VAL=0.87719 | eta=1.0 | ae_epochs=50 | lr=0.0001->1e-05 | q*=0.9990 | thr*=0.449315
+
+>>> BEST MODEL by ORIGINAL Deep SAD validation score:
+Best ORIGINAL VAL F1: 0.87719
+Best cfg: {'eta': 1.0, 'ae_epochs': 50, 'lr_search': 0.0001, 'lr_finetune': 1e-05}
+Best original q: 0.9990
+Best original threshold: 0.449315
+
+Saved best model:
+DeepSAD_best_encoder_selected_by_original_score.pt
+DeepSAD_best_center_selected_by_original_score.pt
+
+>>> PHASE 2: Threshold selection by FEW-SHOT Local Density score
+Best LD VAL F1: 0.91525
+Best LD q: 0.9990
+Best LD threshold: 1.838562
+
+>>> FINAL TEST: Deep SAD + Few-shot Local Density Score
+>>> Reference = labeled simulation normal (800) + real normal few-shot (2)
+>>> Test = remaining real normal (44) + all real anomaly (28)
+
+=== TEST RESULTS: BEST Deep SAD MODEL + FEW-SHOT LD SCORE ===
+N_REAL_REF: 2
+Best ORIGINAL VAL F1          : 0.87719
+Best ORIGINAL q               : 0.9990
+Best ORIGINAL threshold       : 0.449315
+Best LD VAL F1                : 0.91525
+Best LD q                     : 0.9990
+Best LD threshold             : 1.838562
+AUROC_test                    : 0.82305
+AUPR_test                     : 0.77158
+F1_binary(anomaly class)_test : 0.76471
+MCC_test                      : 0.59884
+
+Classification report:
+              precision    recall  f1-score   support
+
+           0       0.94      0.68      0.79        44
+           1       0.65      0.93      0.76        28
+
+    accuracy                           0.78        72
+   macro avg       0.79      0.81      0.78        72
+weighted avg       0.83      0.78      0.78        72
+
+
+Confusion matrix:
+[[30 14]
+ [ 2 26]]
+
+<Figure size 640x480 with 2 Axes>
+Saved: DeepSAD_best_original_confusion_matrix_fewshot_LD_ref2.png
+Saved: DeepSAD_best_original_test_scores_fewshot_LD_ref2.csv
+Saved: DeepSAD_real_normal_reference_fewshot.csv
+Saved: DeepSAD_real_test_after_fewshot_split.csv
+Saved: DeepSAD_best_encoder_selected_by_original_score.pt
+Saved: DeepSAD_best_center_selected_by_original_score.pt
+
+Training time: 2 min 10.72 s
+Testing time : 0 min 00.05 s
+Total time   : 2 min 10.77 s

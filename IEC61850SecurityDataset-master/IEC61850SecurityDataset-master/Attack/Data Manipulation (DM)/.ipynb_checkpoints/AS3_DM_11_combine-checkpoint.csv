@@ -1,0 +1,3 @@
+Source,Length,stNum,sqNum,goID,heartbeat,dif_stNum,dif_sqNum,Circuit breaker Open/Close Status,I-high VT,I-high VT- Tran,I-low VT- Tran,I-amongst-feeders,Label
+ipcas_21:73:32,146,3,0,LIED11PROT/LLN0$Alarm,0.07370817099999982,2.0,-51.0,1,312.3333333333333,153.0,922.0,308.6666666666667,Attack
+ipcas_21:73:32,146,3,1,LIED11PROT/LLN0$Alarm,0.007898996000001546,2.0,-51.0,1,311.0,156.66666666666666,925.0,308.1666666666667,Attack
