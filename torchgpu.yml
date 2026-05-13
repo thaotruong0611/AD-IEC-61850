@@ -1,0 +1,20 @@
+name: torch_gpu
+channels:
+  - pytorch
+  - nvidia
+  - defaults
+dependencies:
+  - python=3.11.13
+  - pytorch=2.5.1
+  - pytorch-cuda=12.1
+  - torchvision=0.20.1
+  - torchaudio=2.5.1
+  - numpy=2.0.1
+  - pyyaml=6.0.2
+  - pip=25.1
+  - pip:
+      - pandas==2.3.0
+      - matplotlib==3.10.3
+      - scikit-learn==1.7.0
+      - scipy==1.15.3
+      - ipykernel==6.29.5
